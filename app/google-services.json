@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676926586759",
+    "project_id": "appplanifica-e3fed",
+    "storage_bucket": "appplanifica-e3fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676926586759:android:d5f8bad9ccfa8b29805d22",
+        "android_client_info": {
+          "package_name": "com.example.appplanifica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyZ7-oLO1R1BzZJPAFk32unhCWjhqnkno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
