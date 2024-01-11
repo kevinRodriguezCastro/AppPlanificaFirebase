@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/editTextNombre"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="69dp"
         android:layout_marginTop="88dp"
         android:hint="Nombre"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +19,8 @@
 
     <EditText
         android:id="@+id/editTextCorreo"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="57dp"
         android:layout_marginTop="32dp"
         android:hint="Correo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,30 +54,30 @@
 
     <Spinner
         android:id="@+id/spinnerCurso"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="318dp"
+        android:layout_height="50dp"
         android:layout_marginTop="4dp"
-        android:prompt="Selecciona un curso"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
+        android:backgroundTint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Spinner
         android:id="@+id/spinnerTurno"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="54dp"
         android:layout_marginTop="4dp"
-        android:prompt="Selecciona un turno"
         app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/black"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/editTextContraseña"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="68dp"
         android:layout_marginTop="32dp"
         android:hint="Contraseña"
         app:layout_constraintEnd_toEndOf="parent"

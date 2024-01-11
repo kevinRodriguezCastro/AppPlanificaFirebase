@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:676926586759:android:d5f8bad9ccfa8b29805d22",
+        "mobilesdk_app_id": "1:676926586759:android:abb85b2c97010cc0805d22",
         "android_client_info": {
-          "package_name": "com.example.appplanifica"
+          "package_name": "com.cifpceuta.appplanificafirebase"
         }
       },
       "oauth_client": [],
