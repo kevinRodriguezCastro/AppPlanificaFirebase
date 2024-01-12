@@ -52,9 +52,9 @@ public class InicioSesion extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //startActivity(new Intent(InicioSesion.this,));
                             recogerDatos();
-                            Toast.makeText(InicioSesion.this, "Funciona inicio de sesion", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(InicioSesion.this,UsuarioLogueado.class));
+                            //Toast.makeText(InicioSesion.this, "Funciona inicio de sesion", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(InicioSesion.this, "Error inicio de sesion", Toast.LENGTH_SHORT).show();
                         }
@@ -75,13 +75,14 @@ public class InicioSesion extends AppCompatActivity {
                         u.setCorreo(document.getData().get("Correo").toString());
                         u.setCurso(document.getData().get("Curso").toString());
                         u.setTurno(document.getData().get("Turno").toString());
-                        Toast.makeText(InicioSesion.this,u.getNombre()+" "+u.getCurso(),Toast.LENGTH_SHORT).show();
-                        Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(InicioSesion.this,"Nombre: "+u.getNombre()+" "+u.getCurso(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(InicioSesion.this,"Datos no encontrados",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(InicioSesion.this,"Datos no encontrados   "+FirebaseAuth.getInstance().getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(InicioSesion.this,"Error al leer datos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InicioSesion.this,"Error al leer datos "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });

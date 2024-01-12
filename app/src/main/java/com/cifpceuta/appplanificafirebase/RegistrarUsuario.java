@@ -106,11 +106,11 @@ public class RegistrarUsuario extends AppCompatActivity {
         usuario.put("Turno", turnos.getSelectedItem().toString());
 
 // Add a new document with a generated ID
-        db.collection("usuarios")
-                .add(usuario)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("usuarios").document(idUsuario)
+                .set(usuario)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void v) {
 
                     }
                 })

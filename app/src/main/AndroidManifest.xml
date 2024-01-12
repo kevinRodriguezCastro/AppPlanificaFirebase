@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AppPlanificaFirebase"
         tools:targetApi="31">
         <activity
+            android:name=".UsuarioLogueado"
+            android:exported="false" />
+        <activity
             android:name=".RegistrarUsuario"
             android:exported="false" />
         <activity

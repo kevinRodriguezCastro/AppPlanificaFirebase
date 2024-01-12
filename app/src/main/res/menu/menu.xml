@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/perfil"
+        android:title="Mi Perfil" />
+
+    <item
+        android:id="@+id/planificarPractica"
+        android:title="Planificar práctica" />
+
+    <item
+        android:id="@+id/planificarExamen"
+        android:title="Planificar examen" />
+
+    <item
+        android:id="@+id/preferencias"
+        android:title="Preferencias" />
+
+    <item
+        android:id="@+id/salir"
+        android:title="Salir" />
+</menu>
