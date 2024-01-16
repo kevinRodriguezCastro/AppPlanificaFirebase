@@ -52,7 +52,7 @@ public class InicioSesion extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            recogerDatos();
+                            //recogerDatos();
                             startActivity(new Intent(InicioSesion.this,UsuarioLogueado.class));
                             //Toast.makeText(InicioSesion.this, "Funciona inicio de sesion", Toast.LENGTH_SHORT).show();
                         } else {
@@ -62,7 +62,6 @@ public class InicioSesion extends AppCompatActivity {
                 });
     }
     private void recogerDatos(){
-
         DocumentReference docRef = db.collection("usuarios").document( FirebaseAuth.getInstance().getCurrentUser().getUid() );
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

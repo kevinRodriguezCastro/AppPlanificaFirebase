@@ -10,15 +10,25 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UsuarioLogueado extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private Usuario usuario;
+
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +44,11 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        db = FirebaseFirestore.getInstance();
+        recogerDatos();
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,5 +71,31 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void recogerDatos(){
+        DocumentReference docRef = db.collection("usuarios").document( FirebaseAuth.getInstance().getCurrentUser().getUid() );
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        usuario = new Usuario();
+                        usuario.setNombre(document.getData().get("Nombre").toString());
+                        usuario.setCorreo(document.getData().get("Correo").toString());
+                        usuario.setCurso(document.getData().get("Curso").toString());
+                        usuario.setTurno(document.getData().get("Turno").toString());
+
+                        Toast.makeText(UsuarioLogueado.this,"Bienvenido "+usuario.getNombre()+" de "+usuario.getCurso(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(UsuarioLogueado.this,"Datos no encontrados   "+FirebaseAuth.getInstance().getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(UsuarioLogueado.this,"Error al leer datos "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
