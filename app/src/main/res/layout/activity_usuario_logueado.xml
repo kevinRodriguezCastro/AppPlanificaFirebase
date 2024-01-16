@@ -18,7 +18,8 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/principal"/>
 
     </LinearLayout>
 
@@ -33,7 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu" />
+        app:menu="@menu/menu"
+        android:backgroundTint="@color/principalClaro"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

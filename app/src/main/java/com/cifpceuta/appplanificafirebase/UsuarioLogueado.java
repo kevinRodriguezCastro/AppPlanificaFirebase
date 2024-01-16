@@ -68,6 +68,8 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, fragmentoDefecto).commit();
             }
              */
+            PerfilFragment p = PerfilFragment.newInstance(usuario);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
         } else if (itemId == R.id.planificarPractica) {
 
