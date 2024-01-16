@@ -49,6 +49,9 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         db = FirebaseFirestore.getInstance();
         recogerDatos();
+
+
+
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -57,8 +60,15 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
 
         if (itemId == R.id.perfil) {
+            //Esto cambia el fragmen y va en el oncreate para que salte por defecto
 
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragPerfilEst, new PerfilEstudiante_Fragment()).commit();
+            /*
+            BlankFragment fragmentoDefecto = BlankFragment.newInstance(usuario.getCorreo());
+            if (saveInstanceState == null){
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, fragmentoDefecto).commit();
+            }
+             */
+
         } else if (itemId == R.id.planificarPractica) {
 
         } else if (itemId == R.id.planificarExamen) {
