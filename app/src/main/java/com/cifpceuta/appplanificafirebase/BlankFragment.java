@@ -22,7 +22,7 @@ public class BlankFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-    private String correo;
+    private Usuario usuario;
 
     public BlankFragment() {
         // Required empty public constructor
@@ -36,12 +36,12 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(String param1) {
+    public static BlankFragment newInstance(Usuario param1) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
 
         //recupera los parametros
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +52,8 @@ public class BlankFragment extends Fragment {
         if (getArguments() != null) {
 
             // Aqui recupera los valores
-            correo = getArguments().getString(ARG_PARAM1);
+             usuario = (Usuario)getArguments().getSerializable(ARG_PARAM1);
+
 
         }
     }
@@ -64,7 +65,7 @@ public class BlankFragment extends Fragment {
 
         TextView tvCorreo;
         tvCorreo = v.findViewById(R.id.fd_bienvenida);
-        tvCorreo.setText("bienvenido: "+correo);
+        tvCorreo.setText("bienvenido: "+usuario.getCorreo());
 
         return v;
     }

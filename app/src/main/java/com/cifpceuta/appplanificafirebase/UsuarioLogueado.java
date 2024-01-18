@@ -52,27 +52,19 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
 
 
+
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         int itemId = item.getItemId();
-
-
         if (itemId == R.id.perfil) {
             //Esto cambia el fragmen y va en el oncreate para que salte por defecto
-
-            /*
-            BlankFragment fragmentoDefecto = BlankFragment.newInstance(usuario.getCorreo());
-            if (saveInstanceState == null){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, fragmentoDefecto).commit();
-            }
-             */
             PerfilFragment p = PerfilFragment.newInstance(usuario);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
         } else if (itemId == R.id.planificarPractica) {
-
+            PlanificarPracticaFragment p = new PlanificarPracticaFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
         } else if (itemId == R.id.planificarExamen) {
 
         } else if (itemId == R.id.preferencias) {
@@ -98,6 +90,11 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
                         usuario.setCorreo(document.getData().get("Correo").toString());
                         usuario.setCurso(document.getData().get("Curso").toString());
                         usuario.setTurno(document.getData().get("Turno").toString());
+
+                        BlankFragment fragmentoDefecto = BlankFragment.newInstance(usuario);
+                        //if (savedInstanceState == null){
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, fragmentoDefecto).commit();
+                        //}
 
                         Toast.makeText(UsuarioLogueado.this,"Bienvenido "+usuario.getNombre()+" de "+usuario.getCurso(),Toast.LENGTH_LONG).show();
                         //Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
