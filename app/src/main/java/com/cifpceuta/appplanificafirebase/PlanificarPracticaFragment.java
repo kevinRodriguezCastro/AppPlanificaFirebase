@@ -10,16 +10,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +45,7 @@ public class PlanificarPracticaFragment extends Fragment {
 
     private EditText titulo,fechaIni,fechaFin,descripcion;
     private Spinner cursos,turnos;
+    private Button btnSubir;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -91,7 +97,7 @@ public class PlanificarPracticaFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    mostrarSelectorFecha(etFechaIni);
+                    mostrarSelectorFecha(fechaIni);
                     //fechaIni = dateString;
                 }
                 return false;
@@ -100,10 +106,28 @@ public class PlanificarPracticaFragment extends Fragment {
 
 
         fechaFin = v.findViewById(R.id.ppFechaFin);
+        fechaFin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    mostrarSelectorFecha(fechaFin);
+                    //fechaIni = dateString;
+                }
+                return false;
+            }
+        });
         descripcion = v.findViewById(R.id.ppDescripcion);
 
         cursos = v.findViewById(R.id.ppCurso);
         turnos = v.findViewById(R.id.ppTurno);
+
+        btnSubir = v.findViewById(R.id.ppBtnSubir);
+        btnSubir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarDatos();
+            }
+        });
 
         List<String> listaCursos = new ArrayList<>();
         listaCursos.add("1ºDAM");
@@ -126,7 +150,26 @@ public class PlanificarPracticaFragment extends Fragment {
 
        return v;
     }
+    private void mostrarSelectorFecha(EditText fecha){
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().build();
 
+        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                // Formatear la fecha seleccionada
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dateString = dateFormat.format(new Date(selection));
+
+                // Mostrar la fecha en el TextView
+                fecha.setText(dateString);
+
+            }
+        });
+
+        if (getActivity() != null) {
+            datePicker.show(getActivity().getSupportFragmentManager(), datePicker.toString());
+        }
+    }
     private void guardarDatos(){
         // Create a new user with a first and last name
         String idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
