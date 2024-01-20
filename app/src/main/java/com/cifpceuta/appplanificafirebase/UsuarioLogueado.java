@@ -13,6 +13,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.cifpceuta.appplanificafirebase.Clases.Practica;
+import com.cifpceuta.appplanificafirebase.Clases.Usuario;
+import com.cifpceuta.appplanificafirebase.Fragment.BlankFragment;
+import com.cifpceuta.appplanificafirebase.Fragment.FragmentTareas;
+import com.cifpceuta.appplanificafirebase.Fragment.PerfilFragment;
+import com.cifpceuta.appplanificafirebase.Fragment.PlanificarPracticaFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -20,6 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class UsuarioLogueado extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -27,7 +37,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Usuario usuario;
-
+    private ArrayList<Practica> practicas;
     private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +59,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         db = FirebaseFirestore.getInstance();
         recogerDatos();
-
-
-
-
+        recogerDatosTareas();
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -62,6 +69,9 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             PerfilFragment p = PerfilFragment.newInstance(usuario);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
+        } else if (itemId == R.id.consultarTarea) {
+            FragmentTareas f = new FragmentTareas(practicas);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
         } else if (itemId == R.id.planificarPractica) {
             PlanificarPracticaFragment p = new PlanificarPracticaFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
@@ -107,4 +117,38 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             }
         });
     }
+
+    private void recogerDatosTareas() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("practicas")
+                .whereEqualTo("CreadorID", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            practicas = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Practica p = new Practica();
+                                p.setCreadorID(document.getString("CreadorID"));
+                                p.setTitulo(document.getString("Titulo"));
+                                p.setDescripcion(document.getString("Descripcion"));
+                                p.setFechaIn(document.getString("FechaInicio"));
+                                p.setFechaFin(document.getString("FechaFin"));
+                                p.setCurso(document.getString("Curso"));
+                                p.setModulo(document.getString("Modulo"));
+
+                                practicas.add(p);
+                            }
+
+                            // Aquí puedes realizar operaciones con la lista de prácticas
+                        } else {
+                            Toast.makeText(UsuarioLogueado.this, "Error al leer datos " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Fragment;
 
 import android.os.Bundle;
 
@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cifpceuta.appplanificafirebase.Adapter.ItemAdapter;
+import com.cifpceuta.appplanificafirebase.Clases.Practica;
+import com.cifpceuta.appplanificafirebase.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,12 +29,17 @@ public class FragmentTareas extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    ArrayList<Practica> practicas;
 
     private RecyclerView recyclerView;
+
     public FragmentTareas() {
+    }
+
+    public FragmentTareas(ArrayList<Practica> practicas) {
         // Required empty public constructor
+        this.practicas = practicas;
     }
 
     /**
@@ -53,8 +64,8 @@ public class FragmentTareas extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -64,7 +75,7 @@ public class FragmentTareas extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_tareas, container, false);
 
-        ItemAdapter adapter = new ItemAdapter();
+        ItemAdapter adapter = new ItemAdapter(practicas);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.tRecycler);
         recyclerView.setAdapter(adapter);

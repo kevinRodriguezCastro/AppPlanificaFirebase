@@ -1,4 +1,4 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Fragment;
 
 import android.os.Bundle;
 
@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.cifpceuta.appplanificafirebase.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -44,7 +44,7 @@ public class PlanificarPracticaFragment extends Fragment {
     private FirebaseFirestore db;
 
     private EditText titulo,fechaIni,fechaFin,descripcion;
-    private Spinner cursos,turnos;
+    private Spinner cursos,modulos;
     private Button btnSubir;
 
     // TODO: Rename and change types of parameters
@@ -119,7 +119,7 @@ public class PlanificarPracticaFragment extends Fragment {
         descripcion = v.findViewById(R.id.ppDescripcion);
 
         cursos = v.findViewById(R.id.ppCurso);
-        turnos = v.findViewById(R.id.ppTurno);
+        modulos = v.findViewById(R.id.ppModulo);
 
         btnSubir = v.findViewById(R.id.ppBtnSubir);
         btnSubir.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class PlanificarPracticaFragment extends Fragment {
         listaTurnos.add("Tarde");
         ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaTurnos);
         turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        turnos.setAdapter(turnoAdapter);
+        modulos.setAdapter(turnoAdapter);
 
 
        return v;
@@ -180,7 +180,8 @@ public class PlanificarPracticaFragment extends Fragment {
         practica.put("FechaInicio", fechaIni.getText().toString());
         practica.put("FechaFin", fechaFin.getText().toString());
         practica.put("Curso", cursos.getSelectedItem().toString());
-        practica.put("Turno", turnos.getSelectedItem().toString());
+        practica.put("Modulo", modulos.getSelectedItem().toString());
+        practica.put("Descripcion", descripcion.toString());
 
         // Add a new document with a generated ID
         db.collection("practicas").document(idUsuario)

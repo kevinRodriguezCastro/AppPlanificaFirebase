@@ -1,4 +1,4 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Clases;
 
 import java.io.Serializable;
 

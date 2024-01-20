@@ -1,24 +1,28 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cifpceuta.appplanificafirebase.Clases.Practica;
+import com.cifpceuta.appplanificafirebase.R;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    private ArrayList<Tarea> list_item;
-    private int par;
+    private ArrayList<Practica> list_item;
+    private String inicio,fin;
 
-    public ItemAdapter(ArrayList<Tarea> listaTareas) {
+    public ItemAdapter(ArrayList<Practica> listaTareas) {
         this.list_item = list_item;
     }
 
@@ -32,18 +36,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-       // holder.bindData(list_item.get(position));
-
-
+        holder.bindData(list_item.get(position));
         holder.cardView.setCardBackgroundColor(Color.WHITE);
-        if (par == 2){
-            if (position%2 == 0){
-                holder.cardView.setCardBackgroundColor(Color.GRAY);
-            }
-        }else if (par == 1){
-            if(position%2 != 0){
-                holder.cardView.setCardBackgroundColor(Color.GREEN);
-            }
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate i = LocalDate.parse(inicio,formato);
+        LocalDate f = LocalDate.parse(fin,formato);
+
+        long diferenciaEnDias = ChronoUnit.DAYS.between(i, f);
+
+        if (diferenciaEnDias > 3) {
+            holder.cardView.setCardBackgroundColor(Color.GREEN);
+        } else if (diferenciaEnDias <= 3 && diferenciaEnDias >= 0) {
+            holder.cardView.setCardBackgroundColor(Color.YELLOW);
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.RED);
         }
 
     }
@@ -54,37 +61,41 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        TextView modulo,curso,fechaIn,fechaFin,descripcion;
+        TextView modulo,curso,fechaIn,fechaFin,titulo;
         ItemAdapter adapter;
         CardView cardView;
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
+            titulo = itemView.findViewById(R.id.ilTitulo);
             modulo = itemView.findViewById(R.id.ilModulo);
             curso = itemView.findViewById(R.id.ilCurso);
-            descripcion = itemView.findViewById(R.id.ilDescripcion);
             fechaIn = itemView.findViewById(R.id.ilFechaIn);
             fechaFin = itemView.findViewById(R.id.ilFechaFin);
 
 
+
         }
-        void bindData(final String item) {
-            modulo.setText(item);
+        void bindData(final Practica item) {
+            inicio = item.getFechaIn();
+            fin = item.getFechaFin();
+
+            modulo.setText(item.getModulo());
+            curso.setText(item.getCurso());
+            titulo.setText(item.getTitulo());
+            fechaIn.setText(inicio);
+            fechaFin.setText(fin);
+
+
         }
     }
 
-    public void setList_item(ArrayList<Tarea> list_item) {
+    public void setList_item(ArrayList<Practica> list_item) {
         this.list_item = list_item;
         notifyDataSetChanged();
     }
 
-    public void setPar(int par) {
-        if (par != this.par){
-            this.par = par;
-        }
 
-        notifyDataSetChanged();
-    }
 
     public void limpiar(){
         //this.par = false;

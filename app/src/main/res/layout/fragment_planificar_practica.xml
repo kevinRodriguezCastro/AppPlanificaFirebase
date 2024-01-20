@@ -1,150 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="horizontal"
-    tools:context=".PlanificarPracticaFragment">
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Fragment.PlanificarPracticaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
+    <!-- Elementos para la práctica -->
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="Nombre de la practica"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Nombre de la práctica"
+        android:textSize="20dp" />
 
     <EditText
         android:id="@+id/ppTitulo"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"></EditText>
+        android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+    <!-- Otras vistas... -->
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Grupo"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.437"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ppTitulo" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="Modulo"/>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="Curso"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="96dp"
-        android:text="Curso"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ppTitulo" />
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/ppModulo"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"/>
 
-    <Spinner
-        android:id="@+id/ppTurno"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        <Spinner
+            android:id="@+id/ppCurso"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
 
-    </Spinner>
 
-    <Spinner
-        android:id="@+id/ppCurso"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="88dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+    <!-- Otras vistas... -->
 
-    </Spinner>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="32dp"
-        android:text="Fecha inicio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ppTurno"></TextView>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="Fecha inicio"/>
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:text="Fecha fin"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="32dp"
-        android:text="fecha fin"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/ppCurso">
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/ppFechaIni"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:maxLines="1"/>
 
-    </TextView>
+        <EditText
+            android:id="@+id/ppFechaFin"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:maxLines="1"/>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/ppFechaIni"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="28dp"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-    </EditText>
-
-    <EditText
-        android:id="@+id/ppFechaFin"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
-        app:layout_constraintStart_toEndOf="@+id/ppFechaIni"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"></EditText>
 
     <EditText
         android:id="@+id/ppDescripcion"
-        android:layout_width="230dp"
+        android:layout_width="250dp"
         android:layout_height="100dp"
         android:background="@drawable/descri"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ppFechaIni">
-
-    </EditText>
+        android:layout_marginTop="30dp"
+        android:inputType="textMultiLine"
+        android:hint="Descripcion"
+        android:gravity="top"/>
 
     <Button
         android:id="@+id/ppBtnSubir"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginBottom="80dp"
-        android:text="Subir practica"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></Button>
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Subir práctica"/>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
