@@ -70,8 +70,10 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
         } else if (itemId == R.id.consultarTarea) {
+
             FragmentTareas f = new FragmentTareas(practicas);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
+
         } else if (itemId == R.id.planificarPractica) {
             PlanificarPracticaFragment p = new PlanificarPracticaFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
@@ -143,7 +145,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
                                 practicas.add(p);
                             }
 
-                            // Aquí puedes realizar operaciones con la lista de prácticas
+
                         } else {
                             Toast.makeText(UsuarioLogueado.this, "Error al leer datos " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }

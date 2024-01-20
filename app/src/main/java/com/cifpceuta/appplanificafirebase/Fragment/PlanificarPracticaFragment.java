@@ -140,10 +140,14 @@ public class PlanificarPracticaFragment extends Fragment {
         cursoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cursos.setAdapter(cursoAdapter);
 
-        List<String> listaTurnos = new ArrayList<>();
-        listaTurnos.add("Mañana");
-        listaTurnos.add("Tarde");
-        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaTurnos);
+        List<String> listaModulos = new ArrayList<>();
+        listaModulos.add("DI");
+        listaModulos.add("SGE");
+        listaModulos.add("PSP");
+        listaModulos.add("EIE");
+        listaModulos.add("AD");
+        listaModulos.add("PM");
+        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaModulos);
         turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modulos.setAdapter(turnoAdapter);
 
@@ -181,7 +185,7 @@ public class PlanificarPracticaFragment extends Fragment {
         practica.put("FechaFin", fechaFin.getText().toString());
         practica.put("Curso", cursos.getSelectedItem().toString());
         practica.put("Modulo", modulos.getSelectedItem().toString());
-        practica.put("Descripcion", descripcion.toString());
+        practica.put("Descripcion", descripcion.getText().toString());
 
         // Add a new document with a generated ID
         db.collection("practicas").document(idUsuario)
