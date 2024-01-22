@@ -2,6 +2,7 @@ package com.cifpceuta.appplanificafirebase.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cifpceuta.appplanificafirebase.Adapter.ItemAdapter;
 import com.cifpceuta.appplanificafirebase.Clases.Practica;
 import com.cifpceuta.appplanificafirebase.R;
+import com.cifpceuta.appplanificafirebase.UsuarioLogueado;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -30,7 +39,8 @@ public class FragmentTareas extends Fragment {
 
     // TODO: Rename and change types of parameters
 
-    ArrayList<Practica> practicas;
+    private ArrayList<Practica> practicas;
+    private FirebaseFirestore db;
 
     private RecyclerView recyclerView;
 
@@ -74,13 +84,43 @@ public class FragmentTareas extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_tareas, container, false);
-
-        ItemAdapter adapter = new ItemAdapter(practicas);
-
-        recyclerView = (RecyclerView) v.findViewById(R.id.tRecycler);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recogerDatosTareas(v);
 
         return v;
+    }
+    private void recogerDatosTareas(View v) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("practicas")
+                .whereEqualTo("CreadorID", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            practicas = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Practica p = new Practica();
+                                p.setCreadorID(document.getString("CreadorID"));
+                                p.setTitulo(document.getString("Titulo"));
+                                p.setDescripcion(document.getString("Descripcion"));
+                                p.setFechaIn(document.getString("FechaInicio"));
+                                p.setFechaFin(document.getString("FechaFin"));
+                                p.setCurso(document.getString("Curso"));
+                                p.setModulo(document.getString("Modulo"));
+                                practicas.add(p);
+                                Toast.makeText(getContext(), p.getTitulo() , Toast.LENGTH_SHORT).show();
+                            }
+                            ItemAdapter adapter = new ItemAdapter(practicas);
+                            recyclerView = (RecyclerView) v.findViewById(R.id.tRecycler);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                        } else {
+                            Toast.makeText(getContext(), "Error al leer datos " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

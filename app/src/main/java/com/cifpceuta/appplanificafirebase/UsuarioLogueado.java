@@ -59,7 +59,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         db = FirebaseFirestore.getInstance();
         recogerDatos();
-        recogerDatosTareas();
+        //recogerDatosTareas();
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -70,7 +70,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
         } else if (itemId == R.id.consultarTarea) {
-
+           // recogerDatosTareas();
             FragmentTareas f = new FragmentTareas(practicas);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
 
@@ -120,37 +120,6 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
         });
     }
 
-    private void recogerDatosTareas() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        db.collection("practicas")
-                .whereEqualTo("CreadorID", uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            practicas = new ArrayList<>();
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Practica p = new Practica();
-                                p.setCreadorID(document.getString("CreadorID"));
-                                p.setTitulo(document.getString("Titulo"));
-                                p.setDescripcion(document.getString("Descripcion"));
-                                p.setFechaIn(document.getString("FechaInicio"));
-                                p.setFechaFin(document.getString("FechaFin"));
-                                p.setCurso(document.getString("Curso"));
-                                p.setModulo(document.getString("Modulo"));
-
-                                practicas.add(p);
-                            }
-
-
-                        } else {
-                            Toast.makeText(UsuarioLogueado.this, "Error al leer datos " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 
 }

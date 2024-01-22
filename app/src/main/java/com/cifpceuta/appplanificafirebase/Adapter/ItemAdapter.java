@@ -23,7 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private String inicio,fin;
 
     public ItemAdapter(ArrayList<Practica> listaTareas) {
-        this.list_item = list_item;
+        this.list_item = listaTareas;
     }
 
     @NonNull

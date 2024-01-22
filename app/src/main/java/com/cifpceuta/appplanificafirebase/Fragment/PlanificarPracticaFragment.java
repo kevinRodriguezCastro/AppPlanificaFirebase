@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.cifpceuta.appplanificafirebase.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,13 +21,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -87,7 +92,7 @@ public class PlanificarPracticaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View v = inflater.inflate(R.layout.fragment_planificar_practica, container, false);
+        View v = inflater.inflate(R.layout.fragment_planificar_practica, container, false);
 
 
 
@@ -104,6 +109,11 @@ public class PlanificarPracticaFragment extends Fragment {
             }
         });
 
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate hoy = LocalDate.now();
+        fechaIni.setHint(hoy.format(formato));
+
+
 
         fechaFin = v.findViewById(R.id.ppFechaFin);
         fechaFin.setOnTouchListener(new View.OnTouchListener() {
@@ -116,6 +126,8 @@ public class PlanificarPracticaFragment extends Fragment {
                 return false;
             }
         });
+        fechaFin.setHint(hoy.plusDays(1).format(formato));
+
         descripcion = v.findViewById(R.id.ppDescripcion);
 
         cursos = v.findViewById(R.id.ppCurso);
@@ -126,6 +138,10 @@ public class PlanificarPracticaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 guardarDatos();
+                titulo.setText("");
+                descripcion.setText("");
+                fechaFin.setText("");
+
             }
         });
 
@@ -188,18 +204,18 @@ public class PlanificarPracticaFragment extends Fragment {
         practica.put("Descripcion", descripcion.getText().toString());
 
         // Add a new document with a generated ID
-        db.collection("practicas").document(idUsuario)
-                .set(practica)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.collection("practicas")
+                .add(practica)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void v) {
-
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getActivity(),"Practica publicada",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                       // Toast.makeText(PlanificarPracticaFragment.this,"Error guardar informacion extra",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Error al subir practica",Toast.LENGTH_SHORT).show();
                     }
                 });
 
