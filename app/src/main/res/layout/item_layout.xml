@@ -31,6 +31,7 @@
                 android:id="@+id/ilModulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_weight="1"
                 android:text="Item 1"
                 android:textSize="28dp">
@@ -44,6 +45,7 @@
             <TextView
                 android:gravity="center"
                 android:id="@+id/ilTitulo"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Item 1"
+                android:textColor="@color/white"
                 android:textSize="28dp">
             </TextView>
 
@@ -72,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:text="Item 1"
                 android:textSize="28dp">
             </TextView>

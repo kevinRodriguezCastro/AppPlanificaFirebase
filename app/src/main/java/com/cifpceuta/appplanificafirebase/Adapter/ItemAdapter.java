@@ -42,9 +42,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.cardView.setCardBackgroundColor(Color.WHITE);
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate i = LocalDate.parse(inicio,formato);
+        //LocalDate i = LocalDate.parse(LocalDate.now().toString(),formato);
         LocalDate f = LocalDate.parse(fin,formato);
-        long diferenciaEnDias = ChronoUnit.DAYS.between(i, f);
+        long diferenciaEnDias = ChronoUnit.DAYS.between(LocalDate.now(), f);
 
         if (diferenciaEnDias > 3) {
             holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.timpoV));
