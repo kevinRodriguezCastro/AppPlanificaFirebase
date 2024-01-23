@@ -1,4 +1,4 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Fragment;
 
 import android.os.Bundle;
 
@@ -9,24 +9,30 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cifpceuta.appplanificafirebase.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -44,17 +50,22 @@ public class PlanificarPracticaFragment extends Fragment {
     private FirebaseFirestore db;
 
     private EditText titulo,fechaIni,fechaFin,descripcion;
-    private Spinner cursos,turnos;
+    private Spinner cursos,modulos;
     private Button btnSubir;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public PlanificarPracticaFragment() {
-        // Required empty public constructor
-    }
+    private HashMap<String,ArrayList<String>> listaModulos;
 
+    public PlanificarPracticaFragment(HashMap<String,ArrayList<String>> modulos) {
+        // Required empty public constructor
+        listaModulos = modulos;
+    }
+    public PlanificarPracticaFragment(){
+
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -87,7 +98,7 @@ public class PlanificarPracticaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View v = inflater.inflate(R.layout.fragment_planificar_practica, container, false);
+        View v = inflater.inflate(R.layout.fragment_planificar_practica, container, false);
 
 
 
@@ -104,6 +115,11 @@ public class PlanificarPracticaFragment extends Fragment {
             }
         });
 
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate hoy = LocalDate.now();
+        fechaIni.setText(hoy.format(formato));
+
+
 
         fechaFin = v.findViewById(R.id.ppFechaFin);
         fechaFin.setOnTouchListener(new View.OnTouchListener() {
@@ -116,36 +132,55 @@ public class PlanificarPracticaFragment extends Fragment {
                 return false;
             }
         });
+        fechaFin.setText(hoy.plusDays(1).format(formato));
+
         descripcion = v.findViewById(R.id.ppDescripcion);
 
         cursos = v.findViewById(R.id.ppCurso);
-        turnos = v.findViewById(R.id.ppTurno);
+        modulos = v.findViewById(R.id.ppModulo);
 
         btnSubir = v.findViewById(R.id.ppBtnSubir);
         btnSubir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 guardarDatos();
+                titulo.setText("");
+                descripcion.setText("");
+               //fechaFin.setText("");
             }
         });
 
         List<String> listaCursos = new ArrayList<>();
-        listaCursos.add("1ºDAM");
+        listaCursos.add("DAM1");
+        listaCursos.add("DAM2");
+        /*
         listaCursos.add("1ºDAW");
         listaCursos.add("1ºSMT");
-        listaCursos.add("2ºDAM");
         listaCursos.add("2ºDAW");
         listaCursos.add("2ºSMT");
+         */
+
+
         ArrayAdapter<String> cursoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaCursos);
         cursoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cursos.setAdapter(cursoAdapter);
+        cursos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, listaModulos.get(cursos.getSelectedItem().toString()));
+                turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                modulos.setAdapter(turnoAdapter);
+            }
 
-        List<String> listaTurnos = new ArrayList<>();
-        listaTurnos.add("Mañana");
-        listaTurnos.add("Tarde");
-        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaTurnos);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaModulos.get(cursos.getSelectedItem().toString()));
         turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        turnos.setAdapter(turnoAdapter);
+        modulos.setAdapter(turnoAdapter);
 
 
        return v;
@@ -180,21 +215,22 @@ public class PlanificarPracticaFragment extends Fragment {
         practica.put("FechaInicio", fechaIni.getText().toString());
         practica.put("FechaFin", fechaFin.getText().toString());
         practica.put("Curso", cursos.getSelectedItem().toString());
-        practica.put("Turno", turnos.getSelectedItem().toString());
+        practica.put("Modulo", modulos.getSelectedItem().toString());
+        practica.put("Descripcion", descripcion.getText().toString());
 
         // Add a new document with a generated ID
-        db.collection("practicas").document(idUsuario)
-                .set(practica)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.collection("practicas")
+                .add(practica)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void v) {
-
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getActivity(),"Practica publicada",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                       // Toast.makeText(PlanificarPracticaFragment.this,"Error guardar informacion extra",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Error al subir practica",Toast.LENGTH_SHORT).show();
                     }
                 });
 

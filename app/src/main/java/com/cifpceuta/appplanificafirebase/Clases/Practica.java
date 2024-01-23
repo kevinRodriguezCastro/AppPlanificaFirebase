@@ -1,16 +1,18 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Clases;
 
-public class Tarea {
+public class Practica {
+    private String creadorID;
+    private String titulo;
     private String curso;
     private String modulo;
     private String descripcion;
     private String fechaIn;
     private String fechaFin;
 
-    public Tarea() {
+    public Practica() {
     }
 
-    public Tarea(String curso, String modulo, String descripcion, String fechaIn, String fechaFin) {
+    public Practica(String curso, String modulo, String descripcion, String fechaIn, String fechaFin) {
         this.curso = curso;
         this.modulo = modulo;
         this.descripcion = descripcion;
@@ -56,5 +58,21 @@ public class Tarea {
 
     public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getCreadorID() {
+        return creadorID;
+    }
+
+    public void setCreadorID(String creadorID) {
+        this.creadorID = creadorID;
     }
 }

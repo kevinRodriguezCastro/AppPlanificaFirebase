@@ -13,6 +13,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.cifpceuta.appplanificafirebase.Clases.Practica;
+import com.cifpceuta.appplanificafirebase.Clases.Usuario;
+import com.cifpceuta.appplanificafirebase.Fragment.BlankFragment;
+import com.cifpceuta.appplanificafirebase.Fragment.FragmentTareas;
+import com.cifpceuta.appplanificafirebase.Fragment.PerfilFragment;
+import com.cifpceuta.appplanificafirebase.Fragment.PlanificarPracticaFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -20,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UsuarioLogueado extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -27,8 +38,9 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Usuario usuario;
-
+    private ArrayList<Practica> practicas;
     private FirebaseFirestore db;
+    private HashMap<String,ArrayList<String>> listaModulos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +61,8 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         db = FirebaseFirestore.getInstance();
         recogerDatos();
-
-
-
-
+        //recogerDatosTareas();
+        recogerDatosModulos();
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -62,8 +72,13 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             PerfilFragment p = PerfilFragment.newInstance(usuario);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
 
+        } else if (itemId == R.id.consultarTarea) {
+           // recogerDatosTareas();
+            FragmentTareas f = new FragmentTareas(usuario);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
+
         } else if (itemId == R.id.planificarPractica) {
-            PlanificarPracticaFragment p = new PlanificarPracticaFragment();
+            PlanificarPracticaFragment p = new PlanificarPracticaFragment(listaModulos);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, p).commit();
         } else if (itemId == R.id.planificarExamen) {
 
@@ -96,7 +111,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, fragmentoDefecto).commit();
                         //}
 
-                        Toast.makeText(UsuarioLogueado.this,"Bienvenido "+usuario.getNombre()+" de "+usuario.getCurso(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(UsuarioLogueado.this,"Bienvenido "+usuario.getNombre()+" de "+usuario.getCurso(),Toast.LENGTH_LONG).show();
                         //Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(UsuarioLogueado.this,"Datos no encontrados   "+FirebaseAuth.getInstance().getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
@@ -107,4 +122,33 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             }
         });
     }
+    private void recogerDatosModulos(){
+        DocumentReference docRef = db.collection("modulos").document("modulos");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        listaModulos = new HashMap<>();
+                        ArrayList<String> modulosDam1 = new ArrayList<>();
+                        ArrayList<String> modulosDam2 = new ArrayList<>();
+                        modulosDam1 = (ArrayList<String>) document.getData().get("DAM1");
+                        modulosDam2 = (ArrayList<String>) document.getData().get("DAM2");
+
+                        listaModulos.put("DAM1",modulosDam1);
+                        listaModulos.put("DAM2",modulosDam2);
+
+                    } else {
+                        Toast.makeText(UsuarioLogueado.this,"Datos no encontrados   "+FirebaseAuth.getInstance().getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(UsuarioLogueado.this,"Error al leer datos "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.cifpceuta.appplanificafirebase;
+package com.cifpceuta.appplanificafirebase.Fragment;
 
 import android.os.Bundle;
 
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.cifpceuta.appplanificafirebase.Clases.Usuario;
+import com.cifpceuta.appplanificafirebase.R;
 
 /**
  * A simple {@link Fragment} subclass.
