@@ -54,12 +54,14 @@ public class RegistrarUsuario extends AppCompatActivity {
         });
 
         List<String> listaCursos = new ArrayList<>();
-        listaCursos.add("1ºDAM");
+        listaCursos.add("DAM1");
+        listaCursos.add("DAM2");
+        /*
+        listaCursos.add("DAW");
+        listaCursos.add("2ºSMT");
         listaCursos.add("1ºDAW");
         listaCursos.add("1ºSMT");
-        listaCursos.add("2ºDAM");
-        listaCursos.add("2ºDAW");
-        listaCursos.add("2ºSMT");
+         */
 
         ArrayAdapter<String> cursoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaCursos);
         cursoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
