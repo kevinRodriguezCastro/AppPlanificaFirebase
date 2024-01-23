@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,10 +57,15 @@ public class PlanificarPracticaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PlanificarPracticaFragment() {
-        // Required empty public constructor
-    }
+    private HashMap<String,ArrayList<String>> listaModulos;
 
+    public PlanificarPracticaFragment(HashMap<String,ArrayList<String>> modulos) {
+        // Required empty public constructor
+        listaModulos = modulos;
+    }
+    public PlanificarPracticaFragment(){
+
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -111,7 +117,7 @@ public class PlanificarPracticaFragment extends Fragment {
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate hoy = LocalDate.now();
-        fechaIni.setHint(hoy.format(formato));
+        fechaIni.setText(hoy.format(formato));
 
 
 
@@ -126,7 +132,7 @@ public class PlanificarPracticaFragment extends Fragment {
                 return false;
             }
         });
-        fechaFin.setHint(hoy.plusDays(1).format(formato));
+        fechaFin.setText(hoy.plusDays(1).format(formato));
 
         descripcion = v.findViewById(R.id.ppDescripcion);
 
@@ -140,30 +146,39 @@ public class PlanificarPracticaFragment extends Fragment {
                 guardarDatos();
                 titulo.setText("");
                 descripcion.setText("");
-                fechaFin.setText("");
-
+               //fechaFin.setText("");
             }
         });
 
         List<String> listaCursos = new ArrayList<>();
-        listaCursos.add("1ºDAM");
+        listaCursos.add("DAM1");
+        listaCursos.add("DAM2");
+        /*
         listaCursos.add("1ºDAW");
         listaCursos.add("1ºSMT");
-        listaCursos.add("2ºDAM");
         listaCursos.add("2ºDAW");
         listaCursos.add("2ºSMT");
+         */
+
+
         ArrayAdapter<String> cursoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaCursos);
         cursoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cursos.setAdapter(cursoAdapter);
+        cursos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, listaModulos.get(cursos.getSelectedItem().toString()));
+                turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                modulos.setAdapter(turnoAdapter);
+            }
 
-        List<String> listaModulos = new ArrayList<>();
-        listaModulos.add("DI");
-        listaModulos.add("SGE");
-        listaModulos.add("PSP");
-        listaModulos.add("EIE");
-        listaModulos.add("AD");
-        listaModulos.add("PM");
-        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaModulos);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<String> turnoAdapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaModulos.get(cursos.getSelectedItem().toString()));
         turnoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modulos.setAdapter(turnoAdapter);
 

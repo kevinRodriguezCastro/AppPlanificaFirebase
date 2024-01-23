@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.cifpceuta.appplanificafirebase.Adapter.ItemAdapter;
 import com.cifpceuta.appplanificafirebase.Clases.Practica;
+import com.cifpceuta.appplanificafirebase.Clases.Usuario;
 import com.cifpceuta.appplanificafirebase.R;
 import com.cifpceuta.appplanificafirebase.UsuarioLogueado;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,13 +44,13 @@ public class FragmentTareas extends Fragment {
     private FirebaseFirestore db;
 
     private RecyclerView recyclerView;
-
+    private Usuario usuario;
     public FragmentTareas() {
     }
 
-    public FragmentTareas(ArrayList<Practica> practicas) {
+    public FragmentTareas(Usuario u) {
         // Required empty public constructor
-        this.practicas = practicas;
+        usuario = u;
     }
 
     /**
@@ -93,7 +94,7 @@ public class FragmentTareas extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         db.collection("practicas")
-                .whereEqualTo("CreadorID", uid)
+                .whereEqualTo("Curso", usuario.getCurso())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -111,7 +112,6 @@ public class FragmentTareas extends Fragment {
                                 p.setCurso(document.getString("Curso"));
                                 p.setModulo(document.getString("Modulo"));
                                 practicas.add(p);
-                                Toast.makeText(getContext(), p.getTitulo() , Toast.LENGTH_SHORT).show();
                             }
                             ItemAdapter adapter = new ItemAdapter(practicas);
                             recyclerView = (RecyclerView) v.findViewById(R.id.tRecycler);

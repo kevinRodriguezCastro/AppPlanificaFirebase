@@ -74,7 +74,7 @@ public class InicioSesion extends AppCompatActivity {
                         u.setCurso(document.getData().get("Curso").toString());
                         u.setTurno(document.getData().get("Turno").toString());
 
-                        Toast.makeText(InicioSesion.this,"Nombre: "+u.getNombre()+" "+u.getCurso(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(InicioSesion.this,"Nombre: "+u.getNombre()+" "+u.getCurso(),Toast.LENGTH_LONG).show();
                         //Toast.makeText(InicioSesion.this,"Datos recogidos",Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(InicioSesion.this,"Datos no encontrados   "+FirebaseAuth.getInstance().getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();

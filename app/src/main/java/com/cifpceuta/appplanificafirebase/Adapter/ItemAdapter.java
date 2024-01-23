@@ -1,5 +1,6 @@
 package com.cifpceuta.appplanificafirebase.Adapter;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cifpceuta.appplanificafirebase.Clases.Practica;
@@ -42,15 +44,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate i = LocalDate.parse(inicio,formato);
         LocalDate f = LocalDate.parse(fin,formato);
-
         long diferenciaEnDias = ChronoUnit.DAYS.between(i, f);
 
         if (diferenciaEnDias > 3) {
-            holder.cardView.setCardBackgroundColor(Color.GREEN);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.timpoV));
         } else if (diferenciaEnDias <= 3 && diferenciaEnDias >= 0) {
-            holder.cardView.setCardBackgroundColor(Color.YELLOW);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.tiempoA));
         } else {
-            holder.cardView.setCardBackgroundColor(Color.RED);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.getContext(), R.color.tiempoR));
         }
 
     }
