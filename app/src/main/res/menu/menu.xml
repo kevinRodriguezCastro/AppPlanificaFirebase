@@ -10,6 +10,9 @@
         android:id="@+id/consultarTarea"
         android:title="Consultar tareas"/>
     <item
+        android:id="@+id/consultarTareaSemana"
+        android:title="Consultar tareas por semana"/>
+    <item
         android:id="@+id/planificarPractica"
         android:title="Planificar práctica" />
 

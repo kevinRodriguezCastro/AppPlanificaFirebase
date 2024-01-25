@@ -7,15 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".RegistrarUsuario">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/rToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/principal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.Toolbar>
+
     <EditText
         android:id="@+id/editTextNombre"
         android:layout_width="322dp"
         android:layout_height="69dp"
         android:layout_marginTop="48dp"
         android:hint="Nombre"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rToolbar" />
 
     <EditText
         android:id="@+id/editTextCorreo"

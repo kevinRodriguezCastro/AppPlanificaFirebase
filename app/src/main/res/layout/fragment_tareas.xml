@@ -10,6 +10,7 @@
         android:id="@+id/tRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_marginTop="80dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

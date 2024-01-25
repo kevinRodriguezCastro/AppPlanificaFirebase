@@ -37,7 +37,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.bindData(list_item.get(position));
         holder.cardView.setCardBackgroundColor(Color.WHITE);
 

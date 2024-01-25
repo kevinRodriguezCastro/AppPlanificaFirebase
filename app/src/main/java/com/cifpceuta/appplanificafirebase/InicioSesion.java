@@ -2,6 +2,7 @@ package com.cifpceuta.appplanificafirebase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+
 
 import com.cifpceuta.appplanificafirebase.Clases.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class InicioSesion extends AppCompatActivity {
     private EditText correo, contraseña;
     private Button btnIniciar;
-
+    private Toolbar toolbar;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -30,6 +33,10 @@ public class InicioSesion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_sesion);
+
+        toolbar = (Toolbar) findViewById(R.id.iToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         correo = (EditText) findViewById(R.id.iCorreo);
         contraseña = (EditText) findViewById(R.id.iContraseña);

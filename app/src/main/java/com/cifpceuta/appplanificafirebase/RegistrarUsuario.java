@@ -2,6 +2,7 @@ package com.cifpceuta.appplanificafirebase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     private EditText nombre,correo,contraseña;
     private Spinner cursos,turnos;
     private Button btnRegistrar;
-
+    private Toolbar toolbar;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -39,6 +40,10 @@ public class RegistrarUsuario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
+
+        toolbar = (Toolbar) findViewById(R.id.rToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nombre = findViewById(R.id.editTextNombre);
         correo = findViewById(R.id.editTextCorreo);

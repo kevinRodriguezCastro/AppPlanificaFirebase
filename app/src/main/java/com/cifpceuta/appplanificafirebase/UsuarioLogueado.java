@@ -17,6 +17,7 @@ import com.cifpceuta.appplanificafirebase.Clases.Practica;
 import com.cifpceuta.appplanificafirebase.Clases.Usuario;
 import com.cifpceuta.appplanificafirebase.Fragment.BlankFragment;
 import com.cifpceuta.appplanificafirebase.Fragment.FragmentTareas;
+import com.cifpceuta.appplanificafirebase.Fragment.NavegationView;
 import com.cifpceuta.appplanificafirebase.Fragment.PerfilFragment;
 import com.cifpceuta.appplanificafirebase.Fragment.PlanificarPracticaFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -76,6 +77,10 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
            // recogerDatosTareas();
             FragmentTareas f = new FragmentTareas(usuario);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
+
+        } else if (itemId == R.id.consultarTareaSemana) {
+            NavegationView n = new NavegationView();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento,n).commit();
 
         } else if (itemId == R.id.planificarPractica) {
             PlanificarPracticaFragment p = new PlanificarPracticaFragment(listaModulos);
