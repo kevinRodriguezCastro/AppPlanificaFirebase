@@ -44,6 +44,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.rToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Registrar");
 
         nombre = findViewById(R.id.editTextNombre);
         correo = findViewById(R.id.editTextCorreo);

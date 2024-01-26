@@ -79,7 +79,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
 
         } else if (itemId == R.id.consultarTareaSemana) {
-            NavegationView n = new NavegationView();
+            NavegationView n = new NavegationView(usuario);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmento,n).commit();
 
         } else if (itemId == R.id.planificarPractica) {

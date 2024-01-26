@@ -50,11 +50,14 @@ public class NavegationView extends Fragment {
 
     private Usuario usuario;
     private RecyclerView recycle;
+    private  ItemAdapter adapter;
     private ArrayList<Practica> practicas;
     public NavegationView() {
         // Required empty public constructor
     }
-
+    public NavegationView(Usuario usuario) {
+        this.usuario = usuario;
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -93,16 +96,20 @@ public class NavegationView extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()){
+                    case 0:
+                        adapter.setList_item(semanaDelMes(1));
+                        break;
                     case 1:
-
+                        adapter.setList_item(semanaDelMes(2));
                         break;
                     case 2:
+                        adapter.setList_item(semanaDelMes(3));
                         break;
                     case 3:
+                        adapter.setList_item(semanaDelMes(4));
                         break;
                     case 4:
-                        break;
-                    case 5:
+                        adapter.setList_item(semanaDelMes(5));
                         break;
                 }
             }
@@ -143,7 +150,7 @@ public class NavegationView extends Fragment {
                                 p.setModulo(document.getString("Modulo"));
                                 practicas.add(p);
                             }
-                            ItemAdapter adapter = new ItemAdapter(practicas);
+                            adapter = new ItemAdapter(semanaDelMes(1)); //Semana 1 por defecto
                             recycle = (RecyclerView) v.findViewById(R.id.nRecycler);
                             recycle.setAdapter(adapter);
                             recycle.setLayoutManager(new LinearLayoutManager(v.getContext()));

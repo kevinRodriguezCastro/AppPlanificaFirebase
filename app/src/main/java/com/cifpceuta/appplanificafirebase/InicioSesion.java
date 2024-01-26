@@ -37,6 +37,7 @@ public class InicioSesion extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.iToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Iniciar sesion");
 
         correo = (EditText) findViewById(R.id.iCorreo);
         contraseña = (EditText) findViewById(R.id.iContraseña);
