@@ -1,8 +1,14 @@
 package com.cifpceuta.appplanificafirebase.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -225,6 +231,8 @@ public class PlanificarPracticaFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getActivity(),"Practica publicada",Toast.LENGTH_SHORT).show();
+                        canal();
+                        notificacion();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -233,6 +241,30 @@ public class PlanificarPracticaFragment extends Fragment {
                         Toast.makeText(getActivity(),"Error al subir practica",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private void notificacion(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.getContext(), "canal")
+                .setSmallIcon(R.drawable.baseline)
+                .setContentTitle("Practica nueva")
+                .setContentText("Se ha publicado nueva actividad")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificacion = NotificationManagerCompat.from(this.getContext());
+        notificacion.notify(0,builder.build());
+    }
+    private void  canal(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "canal";
+           // String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("canal", name, importance);
+          //  channel.setDescription(description);
+            NotificationManager notificationManager = this.getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
     }
 
