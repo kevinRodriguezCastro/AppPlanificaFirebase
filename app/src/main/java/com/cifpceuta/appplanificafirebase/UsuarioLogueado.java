@@ -6,16 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 
+import com.cifpceuta.appplanificafirebase.Adapter.ItemAdapter;
+import com.cifpceuta.appplanificafirebase.Clases.ActividadExtra;
 import com.cifpceuta.appplanificafirebase.Clases.Practica;
 import com.cifpceuta.appplanificafirebase.Clases.Usuario;
 import com.cifpceuta.appplanificafirebase.Fragment.BlankFragment;
+import com.cifpceuta.appplanificafirebase.Fragment.FragmentActividadExtra;
 import com.cifpceuta.appplanificafirebase.Fragment.FragmentTareas;
 import com.cifpceuta.appplanificafirebase.Fragment.NavegationView;
 import com.cifpceuta.appplanificafirebase.Fragment.PerfilFragment;
@@ -40,6 +46,7 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
     private Toolbar toolbar;
     private Usuario usuario;
     private ArrayList<Practica> practicas;
+    private ArrayList<ActividadExtra> actividades;
     private FirebaseFirestore db;
     private HashMap<String,ArrayList<String>> listaModulos;
     @Override
@@ -91,6 +98,9 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
 
         } else if (itemId == R.id.salir) {
             startActivity(new Intent(this, MainActivity.class));
+        } else if (itemId == R.id.consultarActividadExtra) {
+            recogerDatosActividadesExtra();
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -153,7 +163,35 @@ public class UsuarioLogueado extends AppCompatActivity implements NavigationView
             }
         });
     }
+    private void recogerDatosActividadesExtra() {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db = FirebaseFirestore.getInstance();
 
+        db.collection("actividadExtra")
+                .whereEqualTo("Grupo", usuario.getCurso())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            actividades = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ActividadExtra actividad = new ActividadExtra();
+                                actividad.setTitulo(document.getString("Titulo"));
+                                actividad.setGrupo(document.getString("Grupo"));
+                                actividad.setFechaInicio(document.getString("FechaInicio"));
+                                actividades.add(actividad);
+                            }
+
+                            FragmentActividadExtra f = new FragmentActividadExtra(actividades,usuario);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragmento, f).commit();
+                        } else {
+
+                        }
+                    }
+                });
+    }
 
 
 }

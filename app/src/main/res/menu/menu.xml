@@ -15,6 +15,9 @@
     <item
         android:id="@+id/planificarPractica"
         android:title="Planificar práctica" />
+    <item
+        android:id="@+id/consultarActividadExtra"
+        android:title="Consultar Activ. Extra" />
 
     <item
         android:id="@+id/planificarExamen"
